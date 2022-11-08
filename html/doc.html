@@ -1,0 +1,204 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Sample_triangle</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-11-03"><meta name="DC.source" content="doc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Sample_triangle</h1><!--introduction--><p>Function to generate a triangular sampling grid of a given triangle following its edge directions. An element of the resulting mesh is an homothetic smaller version of (V1, V2, V3) triangle. Works in any dimension Ndim &gt;= 2.</p><p>Author &amp; support nicolas.douillet (at) free.fr, 2017-2022.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">See also</a></li><li><a href="#4">Input arguments</a></li><li><a href="#5">Output arguments</a></li><li><a href="#6">3D example</a></li><li><a href="#7">4D example</a></li></ul></div><h2 id="1">Syntax</h2><p>[V T] = sample_triangle(V1, V2, V3);</p><p>[V T] = sample_triangle(V1, V2, V3, nbstep);</p><p>V = sample_triangle(V1, V2, V3, nbstep, option_random);</p><p>V = sample_triangle(V1, V2, V3, nbstep, option_random, nb_points);</p><h2 id="2">Description</h2><p>[V T] = sample_triangle(V1, V2, V3) generates and returns a set of points which samples the (V1, V2, V3) triangle, such that there is 20 samples steps in each vector direction, (V1V2) and (V1V3).</p><p>[V T] = sample_triangle(V1, V2, V3, nbstep) uses nbstep steps in each direction, (V1V2) and (V1V3), therefore size(V,1) is always a triangular number.</p><p>V = sample_triangle(V1, V2, V3, nbstep, option_random) randomly generates the coordinates of 200 sampling points when option_random = true / 1. The resulting grid is not regular anymore. Valuable precision : nbstep is not taken into account in this case. V1, V2, and V3 are part of the set.</p><p>V = sample_triangle(V1, V2, V3, nbstep, option_random, nb_points) allows to tune the wished number of points, nb_points. V1, V2, and V3 are part of the set.</p><h2 id="3">See also</h2><p>| <a href="https://fr.mathworks.com/help/matlab/ref/meshgrid.html?s_tid=srchtitle">meshgrid</a> | <a href="https://fr.mathworks.com/help/matlab/ref/trimesh.html?searchHighlight=trimesh&amp;s_tid=doc_srchtitle">trimesh</a> | <a href="https://fr.mathworks.com/help/matlab/ref/linspace.html?searchHighlight=linspace&amp;s_tid=doc_srchtitle">linspace</a> | <a href="https://fr.mathworks.com/help/matlab/ref/mesh.html">mesh</a> |</p><h2 id="4">Input arguments</h2><pre>       [V1x]
+- V1 = [V1y] : numeric column vector, size(V1) = [Ndim, 1]. The 1st vertex coordinates.
+       [V1z]</pre><pre>       [V1x]
+- V2 = [V2y] : numeric column vector, size(V2) = [Ndim, 1]. The 2nd vertex coordinates.
+       [V2z]</pre><pre>       [V3x]
+- V3 = [V3y] : numeric column vector, size(V3) = [Ndim, 1]. The 3rd vertex coordinates.
+       [V3z]</pre><p>- nbstep : numeric scalar, integer, nbstep &gt; 1. The number of sampling            steps.</p><p>- option_random : either logical *false/true or numeric, *0/1. If false / 0, output T is irrelevant.</p><p>- nb_points : numeric scalar, integer. The number of points wished in               case option_random = true / 1.</p><h2 id="5">Output arguments</h2><pre>      | | |
+- V = [X Y Z] in dimension 3, numeric matrix, the data matrix of the sampling points coordinates. size(V) = [nb_points,Ndim].
+      | | |</pre><pre>       |  |  |
+- T = [i0 i1 i2] in dimension 3. numeric matrix, triangles index matrix. size(T) = [nbstep^2,3]. Is not relevant in case option_random = true / 1.
+       |  |  |</pre><h2 id="6">3D example</h2><p>3D regular sampling + mesh</p><pre class="codeinput">V1 = [-2 3 7]';
+V2 = [8 -1 5]';
+V3 = [3 1 -3]';
+nstep = 16;
+[V, T] = sample_triangle(V1, V2, V3, nstep);
+TRI = triangulation(T, V(:,1), V(:,2), V(:,3));
+figure;
+plot3(V(:,1), V(:,2), V(:,3), <span class="string">'b.'</span>, <span class="string">'Linewidth'</span>, 2), hold <span class="string">on</span>;
+trimesh(TRI);
+colormap([0 0 1]);
+axis <span class="string">equal</span>, axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="doc_01.png" alt=""> <h2 id="7">4D example</h2><p>Random sampling and its 3D projection</p><pre class="codeinput">V1 = [-2 3 7 1]';
+V2 = [8 -1 5 2]';
+V3 = [3 1 -3 -2]';
+nstep = 16;
+option_random = true;
+V = sample_triangle(V1, V2, V3, nstep, option_random, 600);
+figure;
+plot3(V(:,1), V(:,2), V(:,3), <span class="string">'b.'</span>, <span class="string">'Linewidth'</span>, 2), hold <span class="string">on</span>;
+axis <span class="string">equal</span>, axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="doc_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Sample_triangle
+%
+% Function to generate a triangular sampling grid of a given triangle
+% following its edge directions. An element of the resulting mesh is an
+% homothetic smaller version of (V1, V2, V3) triangle. Works in any
+% dimension Ndim >= 2.
+%
+% Author & support nicolas.douillet (at) free.fr, 2017-2022.
+%
+%% Syntax
+% [V T] = sample_triangle(V1, V2, V3);
+%
+% [V T] = sample_triangle(V1, V2, V3, nbstep);
+%
+% V = sample_triangle(V1, V2, V3, nbstep, option_random);
+%
+% V = sample_triangle(V1, V2, V3, nbstep, option_random, nb_points);
+% 
+%% Description
+% [V T] = sample_triangle(V1, V2, V3) generates and returns a set of points
+% which samples the (V1, V2, V3) triangle, such that there is 20 samples
+% steps in each vector direction, (V1V2) and (V1V3).
+%
+% [V T] = sample_triangle(V1, V2, V3, nbstep) uses nbstep steps in each
+% direction, (V1V2) and (V1V3), therefore size(V,1) is always a triangular
+% number.
+%
+% V = sample_triangle(V1, V2, V3, nbstep, option_random) randomly generates
+% the coordinates of 200 sampling points when option_random = true / 1. The
+% resulting grid is not regular anymore. Valuable precision : nbstep is not
+% taken into account in this case. V1, V2, and V3 are part of the set.
+%
+% V = sample_triangle(V1, V2, V3, nbstep, option_random, nb_points) allows
+% to tune the wished number of points, nb_points. V1, V2, and V3 are part
+% of the set.
+%
+%% See also
+%
+% | <https://fr.mathworks.com/help/matlab/ref/meshgrid.html?s_tid=srchtitle meshgrid> | 
+% <https://fr.mathworks.com/help/matlab/ref/trimesh.html?searchHighlight=trimesh&s_tid=doc_srchtitle trimesh> |
+% <https://fr.mathworks.com/help/matlab/ref/linspace.html?searchHighlight=linspace&s_tid=doc_srchtitle linspace> |
+% <https://fr.mathworks.com/help/matlab/ref/mesh.html mesh> |
+%
+%% Input arguments
+%
+%         [V1x]
+% - V1 = [V1y] : numeric column vector, size(V1) = [Ndim, 1]. The 1st vertex coordinates.
+%         [V1z]
+%
+%         [V1x]
+% - V2 = [V2y] : numeric column vector, size(V2) = [Ndim, 1]. The 2nd vertex coordinates.
+%         [V2z]
+%
+%         [V3x]
+% - V3 = [V3y] : numeric column vector, size(V3) = [Ndim, 1]. The 3rd vertex coordinates.
+%         [V3z]
+%
+% - nbstep : numeric scalar, integer, nbstep > 1. The number of sampling
+%            steps.
+%
+% - option_random : either logical *false/true or numeric, *0/1. If false / 0, output T is irrelevant.
+%
+% - nb_points : numeric scalar, integer. The number of points wished in
+%               case option_random = true / 1.
+%
+%% Output arguments
+%
+%        | | |
+% - V = [X Y Z] in dimension 3, numeric matrix, the data matrix of the sampling points coordinates. size(V) = [nb_points,Ndim].
+%        | | |        
+%
+%         |  |  |
+% - T = [i0 i1 i2] in dimension 3. numeric matrix, triangles index matrix. size(T) = [nbstep^2,3]. Is not relevant in case option_random = true / 1.
+%         |  |  |
+%
+%% 3D example
+%
+% 3D regular sampling + mesh
+V1 = [-2 3 7]';
+V2 = [8 -1 5]';
+V3 = [3 1 -3]';
+nstep = 16;
+[V, T] = sample_triangle(V1, V2, V3, nstep);
+TRI = triangulation(T, V(:,1), V(:,2), V(:,3));
+figure;
+plot3(V(:,1), V(:,2), V(:,3), 'b.', 'Linewidth', 2), hold on;
+trimesh(TRI);
+colormap([0 0 1]);
+axis equal, axis tight;
+
+%% 4D example
+%
+% Random sampling and its 3D projection
+V1 = [-2 3 7 1]';
+V2 = [8 -1 5 2]';
+V3 = [3 1 -3 -2]';
+nstep = 16;
+option_random = true;
+V = sample_triangle(V1, V2, V3, nstep, option_random, 600);
+figure;
+plot3(V(:,1), V(:,2), V(:,3), 'b.', 'Linewidth', 2), hold on;
+axis equal, axis tight;
+##### SOURCE END #####
+--></body></html>
